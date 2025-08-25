@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INVOICE - {{invoice_number}}</title>
+    <style>
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #2d3748;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background: white;
+        }
+        .letterhead {
+            border-bottom: 3px double #2d3748;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .company-header {
+            text-align: center;
+        }
+        .company-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1a365d;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .company-tagline {
+            font-style: italic;
+            color: #718096;
+            margin-bottom: 15px;
+        }
+        .company-details {
+            font-size: 14px;
+            color: #4a5568;
+        }
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+        .invoice-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2d3748;
+        }
+        .invoice-meta {
+            text-align: right;
+            font-size: 14px;
+        }
+        .client-section {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f7fafc;
+            border-left: 4px solid #2b6cb0;
+        }
+        .client-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 14px;
+        }
+        .items-table th {
+            background: #edf2f7;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+            color: #4a5568;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .items-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .items-table tr:last-child td {
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .summary {
+            margin-left: auto;
+            width: 300px;
+            margin-top: 20px;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .summary-total {
+            font-weight: bold;
+            font-size: 16px;
+            border-top: 2px solid #2d3748;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+        .bank-details {
+            margin: 30px 0;
+            padding: 20px;
+            background: #ebf8ff;
+            border: 1px solid #90cdf4;
+            border-radius: 4px;
+        }
+        .bank-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c5282;
+        }
+        .signature-area {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #cbd5e0;
+        }
+        .signature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .signature-box {
+            text-align: center;
+        }
+        .signature-line {
+            width: 200px;
+            border-top: 1px solid #4a5568;
+            margin: 30px auto 10px auto;
+        }
+        .signature-label {
+            font-size: 12px;
+            color: #718096;
+            margin-top: 5px;
+        }
+        .terms {
+            margin-top: 40px;
+            padding: 20px;
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            font-size: 12px;
+            color: #718096;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #a0aec0;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+        .status {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .paid { background: #c6f6d5; color: #22543d; }
+        .pending { background: #fefcbf; color: #744210; }
+        .overdue { background: #fed7d7; color: #742a2a; }
+        .draft { background: #e2e8f0; color: #4a5568; }
+    </style>
+</head>
+<body>
+    <div class="letterhead">
+        <div class="company-header">
+            <div class="company-name">{{company.name}}</div>
+            <div class="company-tagline">{{company.tagline}}</div>
+            <div class="company-details">
+                {{company.address}} | {{company.phone}} | {{company.email}}
+            </div>
+        </div>
+    </div>
+
+    <div class="invoice-header">
+        <div class="invoice-title">TAX INVOICE</div>
+        <div class="invoice-meta">
+            <div><strong>Invoice #:</strong> {{invoice_number}}</div>
+            <div><strong>Date:</strong> {{date}}</div>
+            <div><strong>Due Date:</strong> {{due_date}}</div>
+            <div><strong>Status:</strong> <span class="status {{status}}">{{status}}</span></div>
+        </div>
+    </div>
+
+    <div class="client-section">
+        <div class="client-title">BILL TO:</div>
+        <div><strong>{{client_name}}</strong></div>
+        {{#if client_email}}<div>{{client_email}}</div>{{/if}}
+        {{#if client_phone}}<div>{{client_phone}}</div>{{/if}}
+        {{#if client_address}}<div>{{client_address}}</div>{{/if}}
+    </div>
+
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each items}}
+            <tr>
+                <td>{{description}}</td>
+                <td>{{quantity}}</td>
+                <td>{{currency}} {{price}}</td>
+                <td>{{currency}} {{multiply quantity price}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <div class="summary">
+        <div class="summary-row">
+            <div>Subtotal:</div>
+            <div>{{currency}} {{subtotal}}</div>
+        </div>
+        {{#if tax_amount}}
+        <div class="summary-row">
+            <div>Tax ({{tax_rate}}%):</div>
+            <div>{{currency}} {{tax_amount}}</div>
+        </div>
+        {{/if}}
+        {{#if discount}}
+        <div class="summary-row">
+            <div>Discount:</div>
+            <div>-{{currency}} {{discount}}</div>
+        </div>
+        {{/if}}
+        <div class="summary-row summary-total">
+            <div>BALANCE DUE:</div>
+            <div>{{currency}} {{amount}}</div>
+        </div>
+    </div>
+
+    <div class="bank-details">
+        <div class="bank-title">BANK TRANSFER DETAILS</div>
+        <div><strong>Bank:</strong> {{company.bank_name}}</div>
+        <div><strong>Account Number:</strong> {{company.account_number}}</div>
+        <div><strong>Account Name:</strong> {{company.account_name}}</div>
+        {{#if company.swift_code}}<div><strong>SWIFT/BIC:</strong> {{company.swift_code}}</div>{{/if}}
+        {{#if company.bank_address}}<div><strong>Bank Address:</strong> {{company.bank_address}}</div>{{/if}}
+    </div>
+
+    <div class="signature-area">
+        <div class="signature-grid">
+            <div class="signature-box">
+                <div>For {{company.name}}</div>
+                <div class="signature-line"></div>
+                <div class="signature-label">Authorized Signature</div>
+            </div>
+            <div class="signature-box">
+                <div>Accepted by {{client_name}}</div>
+                <div class="signature-line"></div>
+                <div class="signature-label">Client Signature</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="terms">
+        <p><strong>Payment Terms:</strong> Payment is due within {{payment_terms}} days of invoice date.</p>
+        <p><strong>Late Payment:</strong> Accounts not paid within terms are subject to a {{late_fee}}% monthly finance charge.</p>
+        <p>Please include invoice number {{invoice_number}} with your payment.</p>
+    </div>
+
+    <div class="footer">
+        <p>{{company.name}} | {{company.address}} | {{company.phone}} | {{company.email}}</p>
+        <p>Thank you for your business.</p>
+    </div>
+</body>
+</html>

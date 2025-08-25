@@ -1,0 +1,327 @@
+/* src/styles/AccountBalanceCard.css */
+.account-card {
+  width: 40%;
+  max-width: 400px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: none;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+}
+
+.card-header {
+  background: rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  text-align: center;
+}
+
+.card-body {
+  padding: 30px;
+  text-align: center;
+}
+
+.account-icon {
+  height: 2.5rem;
+  object-fit: contain;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.account-icon img {
+  object-fit: contain;
+  height: 100%;
+}
+
+.detail-item {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.detail-label {
+  font-weight: 300;
+  opacity: 0.8;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.detail-value {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.account-number-card {
+  font-weight: 700 !important;
+  font-size: 2.3rem !important;
+  letter-spacing: 1px;
+}
+
+.btn-download {
+  background-color: white;
+  color: #6a11cb;
+  border: none;
+  font-weight: 500;
+  margin-top: 20px;
+}
+
+.btn-download:hover {
+  background-color: #f8f9fa;
+  color: #6a11cb;
+}
+
+.watermark {
+  position: absolute;
+  opacity: 0.05;
+  height: 15rem;
+  transform: rotate(-30deg);
+  z-index: 0;
+  top: 10%;
+  left: 10%;
+}
+
+.watermark img {
+  height: 100%;
+  object-fit: contain;
+}
+
+.card-header h3 {
+  color: white;
+}
+
+.position-relative {
+  align-items: center;
+}
+
+/* Bank Account Card Styles */
+.cont-60 {
+  display: flex;
+  width: 60%;
+}
+
+.bank-account-card {
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  border-radius: 16px;
+  box-shadow: none !important;
+  overflow: hidden;
+  max-width: 100%;
+  flex-direction: column;
+  width: 100%;
+}
+
+.account-info {
+  flex: 2;
+  padding: 24px;
+  border-right: 1px solid #F0F2F5;
+}
+
+.account-type {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 24px;
+}
+
+.balance-display {
+  margin-bottom: 28px;
+}
+
+.current-balance {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.currency {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.amount {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.balance-toggle {
+  background: none;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  padding: 4px;
+  font-size: 18px;
+  transition: all 0.2s ease;
+}
+
+.balance-toggle:hover {
+  color: #3B82F6;
+}
+
+.ledger-balance {
+  font-size: 14px;
+  color: #64748B;
+}
+
+.ledger-balance span {
+  font-weight: 500;
+  color: #475569;
+}
+
+.account-details {
+  margin-top: 24px;
+  font-size: 13px;
+  color: #64748B;
+  line-height: 1.5;
+}
+
+.account-number {
+  font-weight: 500;
+}
+
+.account-name {
+  margin-top: 4px;
+}
+
+.withdraw-button {
+  margin-top: 24px;
+  padding: 10px 24px;
+  background: #3B82F6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.withdraw-button:hover {
+  background: #2563EB;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.preregistration-balance {
+  flex: 1;
+  padding: 24px;
+  background: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-bs-theme=light] .preregistration-balance {
+  background: #F8FAFC;
+}
+
+.section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.balance-value {
+  font-size: 24px;
+  letter-spacing: 2px;
+  color: #5b5f64;
+  font-weight: 500;
+}
+
+.account-number-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.copy-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.copy-btn:hover {
+  color: #3b82f6;
+  transform: scale(1.1);
+}
+
+.copy-feedback {
+  font-size: 12px;
+  color: #10b981;
+  margin-left: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.copy-feedback.show {
+  opacity: 1;
+  display: inline-block;
+}
+
+.top_container_cards {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1280px), (max-width: 1080px), (max-width: 766px), (max-width: 720px), (max-width: 640px) {
+  .cont-60, .account-card {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .bank-account-card {
+    flex-direction: column;
+  }
+  
+  .account-info {
+    border-right: none;
+    border-bottom: 1px solid #F0F2F5;
+  }
+  
+  .top_container_cards {
+    flex-direction: column;
+  }
+}
+
+@media print {
+  .account-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    box-shadow: none !important;
+  }
+  
+  .card-body {
+    padding: 30px !important;
+  }
+  
+  .btn-download {
+    display: none !important;
+  }
+}

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice {{invoice_number}}</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #374151;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .invoice-number {
+            font-size: 24px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 10px;
+        }
+        .invoice-dates {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 15px 0;
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .parties {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 30px 0;
+        }
+        .party-card {
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 6px;
+        }
+        .party-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+        }
+        .items-table th {
+            text-align: left;
+            padding: 12px;
+            font-weight: 500;
+            color: #6b7280;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .items-table td {
+            padding: 12px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .totals {
+            margin-left: auto;
+            width: 250px;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+        }
+        .grand-total {
+            font-weight: 600;
+            font-size: 18px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+        .payment-info {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .payment-info h3 {
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            color: #374151;
+        }
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #e5e7eb;
+        }
+        .signature-box {
+            text-align: center;
+        }
+        .signature-line {
+            width: 180px;
+            border-top: 1px solid #374151;
+            margin: 20px 0 10px 0;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        .paid { background: #ecfdf5; color: #065f46; }
+        .pending { background: #fffbeb; color: #92400e; }
+        .overdue { background: #fef2f2; color: #991b1b; }
+        .draft { background: #f3f4f6; color: #374151; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="invoice-number">INVOICE #{{invoice_number}}</div>
+        <div class="invoice-dates">
+            <div>Date: {{date}}</div>
+            <div>Due: {{due_date}}</div>
+        </div>
+        <div class="status {{status}}">{{status}}</div>
+    </div>
+
+    <div class="parties">
+        <div class="party-card">
+            <div class="party-title">FROM</div>
+            <div><strong>{{company.name}}</strong></div>
+            <div>{{company.address}}</div>
+            <div>{{company.phone}}</div>
+            <div>{{company.email}}</div>
+        </div>
+        
+        <div class="party-card">
+            <div class="party-title">TO</div>
+            <div><strong>{{client_name}}</strong></div>
+            {{#if client_email}}<div>{{client_email}}</div>{{/if}}
+            {{#if client_phone}}<div>{{client_phone}}</div>{{/if}}
+            {{#if client_address}}<div>{{client_address}}</div>{{/if}}
+        </div>
+    </div>
+
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Qty</th>
+                <th>Unit Price</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each items}}
+            <tr>
+                <td>{{description}}</td>
+                <td>{{quantity}}</td>
+                <td>{{currency}} {{price}}</td>
+                <td>{{currency}} {{multiply quantity price}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <div class="totals">
+        <div class="total-row">
+            <div>Subtotal:</div>
+            <div>{{currency}} {{subtotal}}</div>
+        </div>
+        {{#if tax_amount}}
+        <div class="total-row">
+            <div>Tax ({{tax_rate}}%):</div>
+            <div>{{currency}} {{tax_amount}}</div>
+        </div>
+        {{/if}}
+        {{#if discount}}
+        <div class="total-row">
+            <div>Discount:</div>
+            <div>-{{currency}} {{discount}}</div>
+        </div>
+        {{/if}}
+        <div class="total-row grand-total">
+            <div>TOTAL:</div>
+            <div>{{currency}} {{amount}}</div>
+        </div>
+    </div>
+
+    <div class="payment-info">
+        <h3>Payment Instructions</h3>
+        <div>Please make payment to:</div>
+        <div><strong>{{company.bank_name}}</strong></div>
+        <div>Account: {{company.account_number}}</div>
+        <div>Name: {{company.account_name}}</div>
+        {{#if company.swift_code}}<div>SWIFT: {{company.swift_code}}</div>{{/if}}
+    </div>
+
+    <div class="signatures">
+        <div class="signature-box">
+            <div>Authorized Signature</div>
+            <div class="signature-line"></div>
+            <div>{{company.name}}</div>
+        </div>
+        <div class="signature-box">
+            <div>Client Signature</div>
+            <div class="signature-line"></div>
+            <div>{{client_name}}</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Thank you for your business. Payment is due by {{due_date}}.</p>
+        <p>Questions? Contact {{company.email}} | {{company.phone}}</p>
+    </div>
+</body>
+</html>

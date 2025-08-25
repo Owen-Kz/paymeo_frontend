@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INVOICE - {{invoice_number}}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'classic-blue': '#1a365d',
+                        'classic-gray': '#2d3748',
+                        'light-blue': '#ebf8ff',
+                        'cream': '#f7fafc',
+                        'parchment': '#fefaf0'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Georgia&display=swap');
+        body {
+            font-family: 'Georgia', serif;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800 max-w-4xl mx-auto p-8">
+    <!-- Letterhead -->
+    <div class="border-b-2 border-double border-gray-800 pb-6 mb-8">
+        <div class="text-center">
+            <h1 class="text-3xl font-bold text-classic-blue tracking-wide mb-2">{{company.name}}</h1>
+            <p class="italic text-gray-600 mb-4">{{company.tagline}}</p>
+            <p class="text-sm text-gray-700">
+                {{company.address}} | {{company.phone}} | {{company.email}}
+            </p>
+        </div>
+    </div>
+
+    <!-- Invoice Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+        <h2 class="text-2xl font-bold text-classic-gray mb-4 md:mb-0">TAX INVOICE</h2>
+        <div class="text-right space-y-1">
+            <p><span class="font-semibold">Invoice #:</span> {{invoice_number}}</p>
+            <p><span class="font-semibold">Date:</span> {{date}}</p>
+            <p><span class="font-semibold">Due Date:</span> {{due_date}}</p>
+            <p class="flex items-center justify-end space-x-2">
+                <span class="font-semibold">Status:</span> 
+                <span class="inline-block center px-3 py-1 rounded-full text-xs font-bold uppercase 
+                    {{#if status 'paid'}}bg-green-100 text-green-800{{/if}}
+                    {{#if status 'pending'}}bg-yellow-100 text-yellow-800{{/if}}
+                    {{#if status 'overdue'}}bg-red-100 text-red-800{{/if}}
+                    {{#if status 'draft'}}bg-gray-100 text-gray-800{{/if}}">
+                    {{status}}
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Client Section -->
+    <div class="bg-cream p-6 border-l-4 border-blue-600 mb-8">
+        <h3 class="font-bold text-classic-gray mb-4">BILL TO:</h3>
+        <div class="space-y-2">
+            <p class="font-semibold">{{client_name}}</p>
+            {{#if client_email}}<p>{{client_email}}</p>{{/if}}
+            {{#if client_phone}}<p>{{client_phone}}</p>{{/if}}
+            {{#if client_address}}<p>{{client_address}}</p>{{/if}}
+        </div>
+    </div>
+
+    <!-- Items Table -->
+    <div class="overflow-x-auto mb-8">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Description</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Quantity</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Unit Price</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Total</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {{#each items}}
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">{{description}}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{quantity}}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{currency}} {{price}}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{currency}} {{multiply quantity price}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Summary -->
+    <div class="ml-auto w-full md:w-80 mb-8">
+        <div class="flex justify-between py-2 border-b border-gray-200">
+            <div>Subtotal:</div>
+            <div>{{currency}} {{subtotal}}</div>
+        </div>
+        {{#if tax_amount}}
+        <div class="flex justify-between py-2 border-b border-gray-200">
+            <div>Tax ({{tax_rate}}%):</div>
+            <div>{{currency}} {{tax_amount}}</div>
+        </div>
+        {{/if}}
+        {{#if discount}}
+        <div class="flex justify-between py-2 border-b border-gray-200">
+            <div>Discount:</div>
+            <div>-{{currency}} {{discount}}</div>
+        </div>
+        {{/if}}
+        <div class="flex justify-between py-3 font-bold text-lg border-t-2 border-classic-gray mt-2">
+            <div>BALANCE DUE:</div>
+            <div>{{currency}} {{amount}}</div>
+        </div>
+    </div>
+
+    <!-- Bank Details -->
+    <div class="bg-light-blue p-6 border border-blue-300 rounded-lg mb-8">
+        <h3 class="font-bold text-blue-900 mb-4">BANK TRANSFER DETAILS</h3>
+        <div class="space-y-2">
+            <p><span class="font-semibold">Bank:</span> {{company.bank_name}}</p>
+            <p><span class="font-semibold">Account Number:</span> {{company.account_number}}</p>
+            <p><span class="font-semibold">Account Name:</span> {{company.account_name}}</p>
+            {{#if company.swift_code}}<p><span class="font-semibold">SWIFT/BIC:</span> {{company.swift_code}}</p>{{/if}}
+            {{#if company.bank_address}}<p><span class="font-semibold">Bank Address:</span> {{company.bank_address}}</p>{{/if}}
+        </div>
+    </div>
+
+    <!-- Signature Area -->
+    <div class="border-t border-gray-300 pt-8 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="text-center">
+                <p class="mb-6">For {{company.name}}</p>
+                <div class="w-48 h-0.5 bg-gray-700 mx-auto my-6"></div>
+                <p class="text-sm text-gray-600">Authorized Signature</p>
+            </div>
+            <div class="text-center">
+                <p class="mb-6">Accepted by {{client_name}}</p>
+                <div class="w-48 h-0.5 bg-gray-700 mx-auto my-6"></div>
+                <p class="text-sm text-gray-600">Client Signature</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms -->
+    <div class="bg-cream p-6 border border-gray-200 rounded-lg mb-8 text-sm">
+        <p class="mb-2"><span class="font-semibold">Payment Terms:</span> Payment is due within {{payment_terms}} days of invoice date.</p>
+        <p class="mb-2"><span class="font-semibold">Late Payment:</span> Accounts not paid within terms are subject to a {{late_fee}}% monthly finance charge.</p>
+        <p>Please include invoice number {{invoice_number}} with your payment.</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="border-t border-gray-300 pt-6 text-center text-sm text-gray-600">
+        <p class="mb-2">{{company.name}} | {{company.address}} | {{company.phone}} | {{company.email}}</p>
+        <p>Thank you for your business.</p>
+    </div>
+</body>
+</html>

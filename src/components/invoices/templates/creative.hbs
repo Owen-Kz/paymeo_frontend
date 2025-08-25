@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice {{invoice_number}}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+            color: #334155;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        .creative-header {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .company-creative {
+            flex: 1;
+        }
+        .creative-logo {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+        .creative-tagline {
+            font-weight: 300;
+            opacity: 0.9;
+        }
+        .invoice-creative {
+            text-align: right;
+            flex: 1;
+        }
+        .invoice-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            letter-spacing: -1px;
+        }
+        .invoice-number {
+            font-size: 18px;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+        .client-card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            margin: 25px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-left: 6px solid #8b5cf6;
+        }
+        .client-title {
+            font-weight: 700;
+            color: #6366f1;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .items-container {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .items-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 15px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 12px;
+            font-weight: 700;
+            color: #475569;
+        }
+        .item-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 15px;
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .item-row:last-child {
+            border-bottom: none;
+        }
+        .totals-creative {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+        .grand-total {
+            font-size: 20px;
+            font-weight: 800;
+            color: #6366f1;
+            border-top: 2px solid #6366f1;
+            padding-top: 15px;
+            margin-top: 10px;
+        }
+        .payment-creative {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 25px;
+            border-radius: 16px;
+            margin: 25px 0;
+            border: 2px dashed #0ea5e9;
+        }
+        .payment-title {
+            font-weight: 700;
+            color: #0369a1;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .signatures-creative {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        .signature-box {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .signature-line {
+            width: 150px;
+            border-top: 2px solid #6366f1;
+            margin: 25px auto 10px auto;
+        }
+        .footer-creative {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 14px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .paid { background: #dcfce7; color: #166534; }
+        .pending { background: #fef3c7; color: #92400e; }
+        .overdue { background: #fee2e2; color: #991b1b; }
+        .draft { background: #e2e8f0; color: #475569; }
+        .dates-creative {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="creative-header">
+        <div class="header-content">
+            <div class="company-creative">
+                <div class="creative-logo">{{company.name}}</div>
+                <div class="creative-tagline">{{company.tagline}}</div>
+            </div>
+            <div class="invoice-creative">
+                <div class="invoice-title">INVOICE</div>
+                <div class="invoice-number">#{{invoice_number}}</div>
+                <div class="status-badge {{status}}">{{status}}</div>
+            </div>
+        </div>
+        <div class="dates-creative">
+            <div>Issued: {{date}}</div>
+            <div>Due: {{due_date}}</div>
+        </div>
+    </div>
+
+    <div class="client-card">
+        <div class="client-title">CLIENT INFORMATION</div>
+        <div><strong>{{client_name}}</strong></div>
+        {{#if client_email}}<div>📧 {{client_email}}</div>{{/if}}
+        {{#if client_phone}}<div>📞 {{client_phone}}</div>{{/if}}
+        {{#if client_address}}<div>📍 {{client_address}}</div>{{/if}}
+    </div>
+
+    <div class="items-container">
+        <div class="items-header">
+            <div>Description</div>
+            <div>Qty</div>
+            <div>Unit Price</div>
+            <div>Amount</div>
+        </div>
+        {{#each items}}
+        <div class="item-row">
+            <div>{{description}}</div>
+            <div>{{quantity}}</div>
+            <div>{{currency}} {{price}}</div>
+            <div>{{currency}} {{multiply quantity price}}</div>
+        </div>
+        {{/each}}
+    </div>
+
+    <div class="totals-creative">
+        <div class="total-row">
+            <div>Subtotal</div>
+            <div>{{currency}} {{subtotal}}</div>
+        </div>
+        {{#if tax_amount}}
+        <div class="total-row">
+            <div>Tax ({{tax_rate}}%)</div>
+            <div>{{currency}} {{tax_amount}}</div>
+        </div>
+        {{/if}}
+        {{#if discount}}
+        <div class="total-row">
+            <div>Discount</div>
+            <div>-{{currency}} {{discount}}</div>
+        </div>
+        {{/if}}
+        <div class="total-row grand-total">
+            <div>TOTAL AMOUNT</div>
+            <div>{{currency}} {{amount}}</div>
+        </div>
+    </div>
+
+    <div class="payment-creative">
+        <div class="payment-title">💳 PAYMENT INFORMATION</div>
+        <div><strong>{{company.bank_name}}</strong></div>
+        <div>Account: {{company.account_number}}</div>
+        <div>Name: {{company.account_name}}</div>
+        {{#if company.swift_code}}<div>SWIFT: {{company.swift_code}}</div>{{/if}}
+    </div>
+
+    <div class="signatures-creative">
+        <div class="signature-box">
+            <div>Authorized Signature</div>
+            <div class="signature-line"></div>
+            <div>{{company.name}}</div>
+        </div>
+        <div class="signature-box">
+            <div>Client Approval</div>
+            <div class="signature-line"></div>
+            <div>{{client_name}}</div>
+        </div>
+    </div>
+
+    <div class="footer-creative">
+        <p>Thank you for choosing {{company.name}}! 🎉</p>
+        <p>Questions? Contact us at {{company.email}} or {{company.phone}}</p>
+    </div>
+</body>
+</html>

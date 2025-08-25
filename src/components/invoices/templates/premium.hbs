@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Invoice - {{invoice_number}}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e8e8e8;
+            position: relative;
+        }
+        
+        .premium-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #d4af37, #aa8a2d, #d4af37);
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        
+        .company-info h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+        
+        .company-info p {
+            margin: 5px 0;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .invoice-info {
+            text-align: right;
+        }
+        
+        .invoice-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            margin: 0 0 15px 0;
+            color: #d4af37;
+        }
+        
+        .invoice-details {
+            font-size: 14px;
+        }
+        
+        .invoice-details div {
+            margin-bottom: 5px;
+        }
+        
+        .client-info {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .client-info h3 {
+            font-size: 16px;
+            margin: 0 0 15px 0;
+            color: #2c3e50;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .client-details {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .client-details div {
+            flex: 1;
+        }
+        
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        .items-table th {
+            background-color: #f8f9fa;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 2px solid #e8e8e8;
+        }
+        
+        .items-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        
+        .items-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .summary {
+            margin-left: auto;
+            width: 50%;
+            margin-bottom: 40px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+        
+        .summary-row.total {
+            font-weight: 600;
+            font-size: 18px;
+            border-top: 2px solid #e8e8e8;
+            padding-top: 15px;
+            color: #2c3e50;
+        }
+        
+        .payment-info {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .payment-info h3 {
+            font-size: 16px;
+            margin: 0 0 15px 0;
+            color: #2c3e50;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .bank-details {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .bank-details div {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 10px;
+        }
+        
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+        }
+        
+        .signature-box {
+            width: 45%;
+            text-align: center;
+        }
+        
+        .signature-line {
+            margin-top: 60px;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 12px;
+            color: #95a5a6;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .status-paid {
+            background-color: #e7f6e9;
+            color: #2e7d32;
+        }
+        
+        .status-pending {
+            background-color: #ffecb3;
+            color: #f57c00;
+        }
+        
+        .status-overdue {
+            background-color: #ffcdd2;
+            color: #c62828;
+        }
+        
+        .status-draft {
+            background-color: #e0e0e0;
+            color: #424242;
+        }
+        
+        .watermark {
+            position: absolute;
+            opacity: 0.03;
+            font-size: 120px;
+            font-weight: bold;
+            color: #000;
+            transform: rotate(-45deg);
+            top: 40%;
+            left: 20%;
+            z-index: -1;
+            font-family: 'Playfair Display', serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <div class="premium-border"></div>
+        <div class="watermark">PREMIUM</div>
+        
+        <div class="header">
+            <div class="company-info">
+                <h1>Your Company Name</h1>
+                <p>123 Business Avenue, Suite 456</p>
+                <p>New York, NY 10001</p>
+                <p>Phone: (123) 456-7890</p>
+                <p>Email: info@yourcompany.com</p>
+            </div>
+            
+            <div class="invoice-info">
+                <h2>INVOICE</h2>
+                <div class="invoice-details">
+                    <div><strong>Invoice Number:</strong> {{invoice_number}}</div>
+                    <div><strong>Issue Date:</strong> {{date}}</div>
+                    <div><strong>Due Date:</strong> {{due_date}}</div>
+                    <div><strong>Status:</strong> 
+                        <span class="status-badge status-{{status}}">{{status}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="client-info">
+            <h3>Bill To</h3>
+            <div class="client-details">
+                <div>
+                    <strong>{{client_name}}</strong><br>
+                    {{client_email}}
+                </div>
+            </div>
+        </div>
+        
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th class="text-right">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each items}}
+                <tr>
+                    <td>{{description}}</td>
+                    <td class="text-center">{{quantity}}</td>
+                    <td>{{price}} {{../currency}}</td>
+                    <td class="text-right">{{multiply quantity price}} {{../currency}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        
+        <div class="summary">
+            <div class="summary-row">
+                <div>Subtotal:</div>
+                <div>{{amount}} {{currency}}</div>
+            </div>
+            <div class="summary-row">
+                <div>Tax (0%):</div>
+                <div>{{calculateTax amount 0}} {{currency}}</div>
+            </div>
+            <div class="summary-row total">
+                <div>TOTAL:</div>
+                <div>{{amount}} {{currency}}</div>
+            </div>
+        </div>
+        
+        <div class="payment-info">
+            <h3>Payment Information</h3>
+            <div class="bank-details">
+                <div>
+                    <strong>Bank Transfer:</strong><br>
+                    Bank Name: Your Bank Name<br>
+                    Account Number: 1234 5678 9012 3456<br>
+                    Routing Number: 021000021
+                </div>
+                <div>
+                    <strong>Other Methods:</strong><br>
+                    PayPal: payments@yourcompany.com<br>
+                    Credit Card: Via secure payment link
+                </div>
+            </div>
+            <p style="margin-top: 15px; font-style: italic;">
+                Please include invoice number {{invoice_number}} with your payment.
+            </p>
+        </div>
+        
+        <div class="signatures">
+            <div class="signature-box">
+                <div class="signature-line">Authorized Signature</div>
+            </div>
+            <div class="signature-box">
+                <div class="signature-line">Client Signature</div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Thank you for your business. Payment is due within {{daysBetween date due_date}} days of issue date.</p>
+            <p>Questions? Email billing@yourcompany.com or call (123) 456-7890 during business hours.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+/* Add to your existing CSS file */
+.toggle-buttons {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.modalNavButton {
+  background-color: transparent !important;
+  color: var(--primary-color) !important;
+  font-weight: bold;
+}
+
+.formControlContainer {
+  width: 100%;
+}
+
+.formControl {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  box-shadow: none;
+}
+
+.recipientSearchResults {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+.recipientItem {
+  display: flex;
+  margin: 4px !important;
+  padding: 10px 3px;
+  cursor: pointer;
+  align-items: center !important;
+  background-color: transparent !important;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.recipientItem:hover {
+  background-color: #f9fafb !important;
+}
+
+.recipientItem.selected {
+  background-color: #3b82f6 !important;
+  color: white !important;
+}
+
+.addItemButton {
+  transition: all 0.2s;
+}
+
+.addItemButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .formControl {
+    padding: 0.75rem;
+  }
+  
+  .recipientItem {
+    padding: 12px 6px;
+  }
+}
+  /* .recipientSearchResults {
+    max-height: 200px;
+  } */
