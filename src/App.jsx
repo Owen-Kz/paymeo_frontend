@@ -13,6 +13,8 @@ import ProductsPage from './pages/ProductsPage';
 import TransactionsPage from './pages/TransactionsPage';
 import SettingsPage from './pages/SettingsPage';
 import PricingPage from './pages/PricingPage';
+import SharedProductPage from './pages/ShareProductPage';
+import StorePage from './pages/StoreFrontPage';
 // src/App.jsx or src/index.js
 import './styles/mobile-nav.css';
 import EditCustomer from './components/customers/EditCustomer';
@@ -131,6 +133,9 @@ useEffect(() => {
           <Route path="/login" element={<Navigate to="/dashboard" replace />} />
           <Route path="/signup" element={<Navigate to="/dashboard" replace />} />
           <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/product/:productId" element={<SharedProductPage />} />
+          <Route path="/store/:companyId" element={<StorePage />} />
+
 
         </>
       ) : (
@@ -140,6 +145,9 @@ useEffect(() => {
           <Route path="/invoice/v1/:id" element={<InvoicePreview />} />
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/docs/api" element={<APIDocumentation />} />
+
+          <Route path="/product/:productId" element={<SharedProductPage />} />
+          <Route path="/store/:companyId" element={<StorePage />} />
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </>

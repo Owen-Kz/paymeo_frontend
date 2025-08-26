@@ -17,6 +17,12 @@ const ProductsPage = () => {
     company_name: '',
     company_id: ''
   });
+  const baseUrl = window.location.origin;
+
+    const [isCopying, setIsCopying] = useState(false);
+
+    const shareLink = `${baseUrl}/store/${companyData.company_id}`;
+
 // Add this useEffect to persist tab selection
 useEffect(() => {
   // Load active tab from localStorage if available
@@ -25,7 +31,17 @@ useEffect(() => {
     setActiveTab(savedTab);
   }
 }, []);
-
+  const copyToClipboard = async () => {
+    try {
+      setIsCopying(true);
+      await navigator.clipboard.writeText(shareLink);
+      showToast('Link copied to clipboard!', 'success');
+      setTimeout(() => setIsCopying(false), 2000);
+    } catch (err) {
+      showToast('Failed to copy link', 'error');
+      setIsCopying(false);
+    }
+  };
 // Update this function to also save to localStorage
 const handleTabChange = (tabId) => {
   setActiveTab(tabId);
@@ -38,7 +54,7 @@ const handleTabChange = (tabId) => {
 
   const loadProducts = async () => {
     try {
-      const response = await api.get('/api/products'); // ✅ use api instead of fetch
+      const response = await api.post('/myProducts'); // ✅ use api instead of fetch
       setProducts(response.data.products || []);
     } catch (error) {
       console.error(error);
@@ -126,13 +142,24 @@ const handleTabChange = (tabId) => {
                   <div className="p-4 bg-blue-50 border-b border-gray-200">
                     <span className="text-gray-700">Share Store link</span>
                     <a 
-                      href={`https://paymeo.co/store/${companyData.company_id}`} 
+                      href={`${baseUrl}/store/${companyData.company_id}`} 
                       className="copy-link ml-2 text-blue-600 hover:text-blue-800 break-all"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      https://paymeo.co/store/{companyData.company_id}
+                      {`${baseUrl}/store/${companyData.company_id}`}
                     </a>
+                          <button
+                onClick={copyToClipboard}
+                disabled={isCopying}
+                className={`mx-2 px-4 py-2 rounded-lg text-sm font-medium ${
+                  isCopying
+                    ? 'text-green-700'
+                    : 'text-blue-700 '
+                } transition-colors`}
+              >
+                {isCopying ? 'Copied!' : <i className="bi bi-copy"></i>}
+              </button>
                   </div>
                   
                   <ProductsList products={products} onProductUpdate={loadProducts} />
@@ -157,7 +184,7 @@ const handleTabChange = (tabId) => {
             <div className="p-0">
               <div className="w-full">
                 <div className="w-full relative overflow-hidden">
-                  <CustomersList />
+                  <CustomersList onTabChange={handleTabChange} />
                 </div>
               </div>
             </div>

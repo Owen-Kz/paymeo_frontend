@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { showToast } from '../../utils/helpers';
+import api from '../../utils/api';
 
 const CreateCustomer = ({ onCustomerCreated }) => {
   const [formData, setFormData] = useState({
@@ -18,15 +19,12 @@ const CreateCustomer = ({ onCustomerCreated }) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/customers/create`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-      });
+  
+      const response = await api.post("/customers/create", {
+        ...formData
+      })
 
-      const responseData = await response.json();
+      const responseData = await response.data;
       
       if (responseData.success) {
         showToast('Customer created successfully', 'success');

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { showToast } from '../../utils/helpers';
 import api from '../../utils/api';
 
-const CustomersList = () => {
+const CustomersList = ({ onTabChange }) => {
   const [customers, setCustomers] = useState([]);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -126,15 +126,13 @@ const CustomersList = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <Link 
-            to="/customers/create" 
-            className="flex items-center px-4 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-          >
-            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    
+          <button   className="flex items-center px-4 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors" onClick={() => onTabChange('create-customer')}>
+<svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
             </svg>
             Add New Customer
-          </Link>
+          </button>
         </div>
       </div>
 
@@ -163,12 +161,12 @@ const CustomersList = () => {
                 </svg>
                 <h3 className="mt-4 text-lg font-medium text-gray-900">No customers yet</h3>
                 <p className="mt-2 text-sm text-gray-600">Get started by adding your first customer.</p>
-                <Link 
-                  to="/customers/create" 
-                  className="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-                >
-                  Add Your First Customer
-                </Link>
+          
+                  <button onClick={() => onTabChange('create-customer')}   className="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                    Add Your First Customer
+                  </button>
+                  
+             
               </>
             )}
           </div>

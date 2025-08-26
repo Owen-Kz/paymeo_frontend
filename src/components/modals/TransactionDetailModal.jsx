@@ -78,8 +78,8 @@ const TransactionDetailModal = ({ show, onHide, transaction }) => {
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Transaction ID</p>
-                  <p className="font-medium text-gray-900">#{transaction.id}</p>
+                  <p className="text-sm text-gray-500">Reference</p>
+                  <p className="font-medium text-gray-900">{transaction.reference}</p>
                 </div>
               </div>
             </div>
